@@ -1,33 +1,33 @@
 from sys import argv
-file = argv[1]
 
 
-def encode(letter):
+def encode(line):
+    n = ord('z') + ord('a')
+    N = ord('Z') + ord('A')
+    atbash=''
+    chars  = [] 
+    for c in line:
+        if c.isalpha() and  c.isupper() :
+            chars.append( chr(N - ord(c)))
+        elif c.isalpha() and  c.islower():
+            chars.append( chr(n - ord(c)))
+        else:
+            chars.append(c)
+    return atbash.join(chars)
 
-    lowers = 'abcdefghijklmnopqrstuvwxyz'
-    uppers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    digits = '0123456789'
 
-    if letter in lowers:
-        return lowers[-1- lowers.find(letter)]
 
-    if letter in uppers:
-        return uppers[-1- uppers.find(letter)]
-
-    return letter
-
-output=''
-with open(file) as f:
-
-    while(True):
-        line = f.readline()
-        if not line:
-            break
-
-        print(line)
-
-        for letter in line:
-            output = output + encode(letter)
-output_file='output.txt'
-with open(output_file,'w') as o:
-    o.write(output)
+if __name__ == '__main__':
+    input_file = argv[1]
+    result=''
+    with open(input_file) as f:
+        line = f.readlines()
+    
+    import  concurrent.futures as cf
+    with cf.ThreadPoolExecutor() as executor:
+        result = list(executor.map(encode, line))
+    
+    output_file='output.txt'
+    with open(output_file,'w') as o:
+        o.writelines(result)
+    

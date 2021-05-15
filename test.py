@@ -1,6 +1,6 @@
 import unittest
 
-from nau1 import driver,encode 
+from nauge_assignment import encode 
 
 
 class TestEncode(unittest.TestCase):
